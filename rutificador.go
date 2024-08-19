@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	customerrors "github.com/grayjacketstudios/rutificador/customErrors"
-	"github.com/grayjacketstudios/rutificador/utils"
+	customerrors "github.com/grayjacketstudios/rutifica-go/customErrors"
+	"github.com/grayjacketstudios/rutifica-go/utils"
 )
 
 var multiplicador = [9]int{2, 3, 4, 5, 6, 7, 2, 3, 4}

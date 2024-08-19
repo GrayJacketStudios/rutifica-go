@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	customerrors "github.com/grayjacketstudios/rutificador/customErrors"
+	customerrors "github.com/grayjacketstudios/rutifica-go/customErrors"
 )
 
 func TestObtenerDV(t *testing.T) {
