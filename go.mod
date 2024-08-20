@@ -1,3 +1,3 @@
-module github.com/grayjacketstudios/rutifica-go
+module github.com/grayjacketstudios/rutificagor
 
 go 1.23.0

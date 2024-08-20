@@ -1,10 +1,10 @@
-package rutificador
+package rutificagor
 
 import (
 	"errors"
 	"testing"
 
-	customerrors "github.com/grayjacketstudios/rutifica-go/customErrors"
+	customerrors "github.com/grayjacketstudios/rutificagor/customErrors"
 )
 
 func TestObtenerDV(t *testing.T) {
