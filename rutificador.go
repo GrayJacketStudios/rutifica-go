@@ -1,6 +1,8 @@
 package rutificagor
 
 import (
+	"fmt"
+	"math/rand/v2"
 	"strconv"
 	"strings"
 
@@ -61,4 +63,19 @@ func ValidarRut(rut string) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+// Genera un rut al azar en el rango indicado, con el DV correspondiente
+// Se debe pasar el rut minimo y maximo que puede llegar a usar. Ejemplo: rutificagor.GenerarRut(8000000,24000000) -> genera un rut entre 8 millones y 24 millones
+func GenerarRut(min, max int) string {
+	rut := rand.IntN(max+1-min) + min
+	dv, err := ObtenerDV(strconv.Itoa(rut))
+	if err != nil {
+		panic(err)
+	}
+	return fmt.Sprintf("%v-%s", rut, string(dv))
+}
+
+func GenerarRutRandom() string {
+	return GenerarRut(4000000, 99999999)
 }
