@@ -14,7 +14,7 @@ var multiplicador = [9]int{2, 3, 4, 5, 6, 7, 2, 3, 4}
 
 // Genera el digito verificador de un rut, a partir de un string con los numeros requeridos, los cuales pueden estar o no separados por puntos.
 func ObtenerDV(rut string) (dv rune, err error) {
-	rut = strings.ReplaceAll(strings.ReplaceAll(rut, ".", ""), "-", "")
+	rut = formatSinPuntosSinGuion(rut)
 	if len(rut) == 0 {
 		return '0', &customerrors.EmptyInputError{}
 	}
@@ -78,4 +78,44 @@ func GenerarRut(min, max int) string {
 
 func GenerarRutRandom() string {
 	return GenerarRut(4000000, 99999999)
+}
+
+func FormatearRut(rut string, formatOption int) (rutFormated string, err error) {
+	rut = strings.TrimSpace(rut)
+	switch formatOption {
+	case 1:
+		return formatPuntosGuion(rut), nil
+	case 2:
+		return formatSinPuntosConGuion(rut), nil
+	case 3:
+		return formatSinPuntosSinGuion(rut), nil
+	default:
+		return rut, &customerrors.InvalidOptionError{}
+	}
+
+}
+
+func formatPuntosGuion(rut string) string {
+	rut = formatSinPuntosSinGuion(rut)
+	lastDigit := rut[len(rut)-1]
+	rut = rut[0 : len(rut)-1]
+	rut = utils.Reverse(rut)
+	newRut := ""
+	for i, t := range rut {
+		if i > 0 && i%3 == 0 {
+			newRut = fmt.Sprintf("%s.%s", newRut, string(t))
+		} else {
+			newRut = fmt.Sprintf("%s%s", newRut, string(t))
+		}
+	}
+
+	return fmt.Sprintf("%s-%s", utils.Reverse(newRut), string(lastDigit))
+}
+
+func formatSinPuntosConGuion(rut string) string {
+	return strings.ReplaceAll(rut, ".", "")
+}
+
+func formatSinPuntosSinGuion(rut string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(rut, ".", ""), "-", "")
 }
