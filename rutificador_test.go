@@ -100,3 +100,44 @@ func TestGenerarRut(t *testing.T) {
 		}
 	}
 }
+
+func TestFormatPuntosGuion(t *testing.T) {
+	testCases := []struct {
+		rut      string
+		formated string
+	}{
+		{rut: "18622178-8", formated: "18.622.178-8"},
+		{rut: "11111111-1", formated: "11.111.111-1"},
+		{rut: "8000000-8", formated: "8.000.000-8"},
+	}
+	for _, tc := range testCases {
+		if result := formatPuntosGuion(tc.rut); result != tc.formated {
+			t.Errorf("formatPuntosGuion(%s) = %s; want: %s", tc.rut, result, tc.formated)
+		}
+	}
+}
+
+func TestFormatearRut(t *testing.T) {
+	testCases := []struct {
+		rut      string
+		option   int
+		formated string
+		err      error
+	}{
+		{rut: "18622178-8", option: 1, formated: "18.622.178-8", err: nil},
+		{rut: "11111111-1", option: 1, formated: "11.111.111-1", err: nil},
+		{rut: "8000000-8", option: 1, formated: "8.000.000-8", err: nil},
+		{rut: "18.622.178-8", option: 2, formated: "18622178-8", err: nil},
+		{rut: "11.111.111-1", option: 2, formated: "11111111-1", err: nil},
+		{rut: "8.000.000-8", option: 2, formated: "8000000-8", err: nil},
+		{rut: "18.622.178-8", option: 3, formated: "186221788", err: nil},
+		{rut: "11.111.111-1", option: 3, formated: "111111111", err: nil},
+		{rut: "8.000.000-8", option: 3, formated: "80000008", err: nil},
+		{rut: "18622178-8", option: 23, formated: "18622178-8", err: &customerrors.InvalidOptionError{}},
+	}
+	for _, tc := range testCases {
+		if result, err := FormatearRut(tc.rut, tc.option); result != tc.formated || tc.err != nil && err == tc.err {
+			t.Errorf("formatPuntosGuion(%s, %d) = %s; want: %s; error wanted: %s", tc.rut, tc.option, result, tc.formated, tc.err)
+		}
+	}
+}
